@@ -49,7 +49,7 @@ app.get("/cargarInput", function(req, res){
 //Guardar un tweet en base a un método POST
 app.post('/send', function(req, res){
 	
-	var text = req.body.tweet;
+	var text = req.body.nombre;
 	console.log(text);
 	var fs = require('fs');
 	fs.exists(text, function(exists) { 
@@ -59,7 +59,17 @@ app.post('/send', function(req, res){
 				console.log(err)
 			    }
 			    else{
-				res.send(data);
+			   	
+			    var datos = data.split("\n");
+			    var largoArray = datos.length;
+			    datos.splice(largoArray-1,1);
+
+			    var particion = Math.floor(largoArray/5);
+			    var diferencia = largoArray%5;
+			    console.log(largoArray);
+			    console.log(particion);
+			    console.log(diferencia);
+				res.send(datos);
 			    }
 			});
 	
