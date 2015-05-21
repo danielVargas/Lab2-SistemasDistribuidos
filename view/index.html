@@ -23,22 +23,13 @@
       <br>
       <h4>Ingrese nombre de archivo de entrada</h4>
       <br>
-      <!-- Formulario para enviar tweet -->
+    
       <form action="/send" method="post">
-      	<input name="tweet" type="text" class="form-control" required>
+      	<input name="in" type="text" class="form-control" required>
       	<br>
         <button id="enviar" name="send" type="submit" class="btn btn-primary">Enviar archivo!</button>
       </form>
 
-      <!-- Mensaje de alerta -->
-      <div id="success-alert" class="alert alert-success fade">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-          ¡Se ha enviado tu tweet correctamente!
-      </div>
-      <div class="alert alert-danger hide fade in" role="alert">
-       <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Error!</strong> Ha ocurrido un problema
-      </div>
   </div>
 </body>
 </html>
