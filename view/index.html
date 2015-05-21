@@ -4,34 +4,41 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	
-	<title>TSD - Clase #1</title>
+	<title>LAB2-SD</title>
 	
 	<script type="text/javascript" src="js/index.js"></script>
   <script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	
 	<link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
-  <h1>Web Services</h1>
-  <h2>Formulario para enviar los tweets</h2>
+  <nav class="navbar navbar-default">
+    <h1 align="center">Laboratorio 2 Sistemas Distribuidos</h1>
+  </nav>
+  <div class="container well">
+      
+      <br>
+      <h4>Ingrese nombre de archivo de entrada</h4>
+      <br>
+      <!-- Formulario para enviar tweet -->
+      <form action="/send" method="post">
+      	<input name="tweet" type="text" class="form-control" required>
+      	<br>
+        <button id="enviar" name="send" type="submit" class="btn btn-primary">Enviar archivo!</button>
+      </form>
 
-  <!-- Formulario para enviar tweet -->
-  <form action="/send" method="post">
-  	<input name="tweet" type="text" class="form-control" placeholder="Tweet #1 a enviar" required>
-  	<button id="enviar" name="send" type="submit" class="btn btn-primary">Enviar tweet</button>
-  </form>
-
-  <!-- Mensaje de alerta -->
-  <div id="success-alert" class="alert alert-success fade">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-      ¡Se ha enviado tu tweet correctamente!
+      <!-- Mensaje de alerta -->
+      <div id="success-alert" class="alert alert-success fade">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+          ¡Se ha enviado tu tweet correctamente!
+      </div>
+      <div class="alert alert-danger hide fade in" role="alert">
+       <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Error!</strong> Ha ocurrido un problema
+      </div>
   </div>
-  <div class="alert alert-danger hide fade in" role="alert">
-   <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>Error!</strong> Ha ocurrido un problema
-  </div>
-
 </body>
 </html>

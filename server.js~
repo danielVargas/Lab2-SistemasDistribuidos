@@ -48,23 +48,26 @@ app.get("/cargarInput", function(req, res){
 
 //Guardar un tweet en base a un método POST
 app.post('/send', function(req, res){
-	console.log('Send Post');
-	var collec = ['tweetList'];
-	var db = require("mongojs").connect(databaseUrl, collec);
-
+	
 	var text = req.body.tweet;
-
-	//Submit a la DB
-    db.tweetList.save(
-    	{
-    		tweet: text
-    	}, function(err, saved) {
-		  if( err || !saved ){
-		  	console.log("Tweet don't save");
-		  	res.redirect("/");
-		  } else {
-		  	console.log("Tweet save");
-		  	res.redirect("/");
-		  }
+	console.log(text);
+	var fs = require('fs');
+	fs.exists(text, function(exists) { 
+		if (exists) {
+			fs.readFile(text, 'utf8', function(err, data) {
+			    if( err ){
+				console.log(err)
+			    }
+			    else{
+				res.send(data);
+			    }
+			});
+	
+		} 
+		else{
+			res.send("El archivo no existe.");		
+		}
 	});
+	
+
 });
