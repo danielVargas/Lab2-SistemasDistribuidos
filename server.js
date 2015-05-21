@@ -24,44 +24,27 @@ app.use(cors());
 
 console.log('Web Services Online in Port ' + port);
 
+
+
 //Routing view
 app.get('/', function(req, res){
 	res.redirect("/view/index.html");
 });
 
-//Devuelve el N tweet
-app.get('/tweet/:number', function(req, res){
-	var collec = ['tweetList'];
-	var db = require("mongojs").connect(databaseUrl, collec);
-	var collection = db.collection('tweetList');
+app.get("/cargarInput", function(req, res){
 
-	collection.count(function(error, numTweet) {
-    	if(error) res.send('Error connection')
-    	if(req.params.number >= numTweet){
-    		res.send('Error length');
-    	} else {
-    		collection.find().skip(parseInt(req.params.number)).limit(1).toArray(function(e, results){
-			    if (e) res.send('Error');
-			    res.send('{"tweet":"'+results[0].tweet+'"}');
-				db.close();
-		  	})
-    	}
+	var fs = require('fs');
+	fs.readFile('./input.txt', 'utf8', function(err, data) {
+	    if( err ){
+		console.log(err)
+	    }
+	    else{
+		res.send(data);
+	    }
 	});
 });
 
-//Devuelve la cantidad de tweet que se poseen en la base de datos
-app.get('/tweetCount/', function(req, res){
-	//console.log('tweetClassifier');
-	var collec = ['tweetList'];
-	var db = require("mongojs").connect(databaseUrl, collec);
-	var collection = db.collection('tweetList');
-
-	collection.count(function(error, countTweet) {
-    	if(error) res.send('Error connection');
-    	//console.log(numTweet);
-    	res.send('{"countTweet":"'+countTweet+'"}');
-	});
-});
+// EJEMLPO POST
 
 //Guardar un tweet en base a un método POST
 app.post('/send', function(req, res){
