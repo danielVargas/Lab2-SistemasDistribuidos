@@ -1,4 +1,76 @@
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+
+
+public class Server {
+
+  protected void start() {
+    ServerSocket s;
+    String gets = "";
+    System.out.println("Start on port 8088");
+    try {
+      // create the main server socket
+      s = new ServerSocket(8088);
+    } catch (Exception e) {
+      System.out.println("Error: " + e);
+      return;
+    }
+
+    System.out.println("Waiting for connection");
+    for (;;) {
+      try {
+        // wait for a connection
+        Socket remote = s.accept();
+        // remote is now the connected socket
+        System.out.println("Connection, sending data.");
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+            remote.getReader()));
+        PrintWriter out = new PrintWriter(remote.getOutputStream());
+
+
+    
+        String str = ".";
+
+        while (!str.equals("")) {
+          str = in.readLine();
+          System.out.println(str);
+          if (str.contains("GET")){
+            gets = str;
+            break;
+          }
+        }
+
+        out.println("HTTP/1.0 200 OK");
+        out.println("Content-Type: text/html");
+        out.println("");
+        // Send the HTML page
+        String method = "get";
+        out.print("<html><form method="+method+">");
+        out.print("<textarea name=we></textarea></br>");
+        out.print("<input type=text name=a><input type=submit></form></html>");
+        out.println(gets);
+        out.flush();
+
+        remote.close();
+      } catch (Exception e) {
+        System.out.println("Error: " + e);
+      }
+    }
+  }
+
+  public static void main(String args[]) {
+    Server ws = new Server();
+    ws.start();
+  }
+}
+
+
+
+/*import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -54,3 +126,4 @@ public class Server {
     }
  
 }
+*/

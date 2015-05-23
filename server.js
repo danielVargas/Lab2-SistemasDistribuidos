@@ -24,6 +24,49 @@ app.use(cors());
 
 console.log('Web Services Online in Port ' + port);
 
+		var text = "input.txt";
+		console.log(text);
+		var arrayForServer;
+		var fs = require('fs');
+		fs.exists(text, function(exists) { 
+			if (exists) {
+				fs.readFile(text, 'utf8', function(err, data) {
+				    if( err ){
+					console.log(err)
+				    }
+				    else{
+				   		
+					    var datos = data.split("\n");
+					    var largoArray = datos.length;
+					    datos.splice(largoArray-1,1);
+
+					    var particion = Math.floor(largoArray/5);
+					    var diferencia = largoArray%5;
+
+					    for (var i = 0; i < particion + diferencia; i++) {
+					    	
+					    };
+					    console.log(largoArray);
+					    console.log(particion);
+					    console.log(diferencia);
+						arrayForServer = JSON.stringify(datos);
+						var headers = {
+						  'Content-Type': 'application/json',
+						  'Content-Length': arrayForServer.length
+						};
+
+			
+					    }
+
+				});
+		
+			} 
+			else{
+				console.log("Error al cargar archivo, compruebe input.txt");
+			}
+		});
+
+
 
 
 //Routing view
@@ -47,8 +90,99 @@ app.get("/cargarInput", function(req, res){
 // EJEMLPO POST
 
 //Guardar un tweet en base a un método POST
-app.post('/send', function(req, res){
-	
+
+app.get('/part/:number', function(req, res){
+
+			    var numero = req.params.number;
+			    res.send(arrayForServer+ numero);
+		
+
+});
+
+
+
+
+
+
+
+
+
+
+
+app.post('/cargarIn', function (req, res) {
+
+		var text = req.body.nombre;
+		console.log(text);
+
+		var fs = require('fs');
+		fs.exists(text, function(exists) { 
+			if (exists) {
+				fs.readFile(text, 'utf8', function(err, data) {
+				    if( err ){
+					console.log(err)
+				    }
+				    else{
+				   		
+					    var datos = data.split("\n");
+					    var largoArray = datos.length;
+					    datos.splice(largoArray-1,1);
+
+					    var particion = Math.floor(largoArray/5);
+					    var diferencia = largoArray%5;
+
+						 var options = {
+						    host: 'localhost',
+						    port: 8088,
+						 
+						    method: 'POST',
+						    headers: {
+						      'Content-Type': 'application/x-www-form-urlencoded',
+						      'Content-Length': Buffer.byteLength(data)
+						    }
+						  };
+						  /*
+						  var httpreq = http.request(options, function (response) {
+						    response.setEncoding('utf8');
+						    response.on('data', function (chunk) {
+						      console.log("body: " + chunk);
+						    });
+						    response.on('end', function() {
+						      res.send('ok');
+						    })
+						  });
+						  console.log(data);
+						  httpreq.write(data);
+						  httpreq.end();*/
+
+					    for (var i = 0; i < particion + diferencia; i++) {
+					    	
+					    };
+					    console.log(largoArray);
+					    console.log(particion);
+					    console.log(diferencia);
+						var arrayForServer = JSON.stringify(datos);
+						var headers = {
+						  'Content-Type': 'application/json',
+						  'Content-Length': arrayForServer.length
+						};
+
+						res.send(arrayForServer);
+					    }
+
+				});
+		
+			} 
+			else{
+				res.send("El archivo no existe.");		
+			}
+		});
+
+});
+
+	app.listen(8080);
+
+app.post('http://localhost:8088/', function(req, res){
+
 	var text = req.body.nombre;
 	console.log(text);
 	var fs = require('fs');
@@ -59,18 +193,29 @@ app.post('/send', function(req, res){
 				console.log(err)
 			    }
 			    else{
-			   	
-			    var datos = data.split("\n");
-			    var largoArray = datos.length;
-			    datos.splice(largoArray-1,1);
+			   		console.log(data);
+				    var datos = data.split("\n");
+				    var largoArray = datos.length;
+				    datos.splice(largoArray-1,1);
 
-			    var particion = Math.floor(largoArray/5);
-			    var diferencia = largoArray%5;
-			    console.log(largoArray);
-			    console.log(particion);
-			    console.log(diferencia);
-				res.send(datos);
-			    }
+				    var particion = Math.floor(largoArray/5);
+				    var diferencia = largoArray%5;
+
+				    for (var i = 0; i < particion + diferencia; i++) {
+				    	
+				    };
+				    console.log(largoArray);
+				    console.log(particion);
+				    console.log(diferencia);
+					var arrayForServer = JSON.stringify(datos);
+					var headers = {
+					  'Content-Type': 'application/json',
+					  'Content-Length': arrayForServer.length
+					};
+
+					res.send(arrayForServer);
+				    }
+
 			});
 	
 		} 
