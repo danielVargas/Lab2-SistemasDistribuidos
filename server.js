@@ -24,9 +24,11 @@ app.use(cors());
 
 console.log('Web Services Online in Port ' + port);
 
+		var arraysToServers = new Array(5);
 		var text = "input.txt";
 		console.log(text);
 		var arrayForServer;
+		var datos;
 		var fs = require('fs');
 		fs.exists(text, function(exists) { 
 			if (exists) {
@@ -36,24 +38,36 @@ console.log('Web Services Online in Port ' + port);
 				    }
 				    else{
 				   		
-					    var datos = data.split("\n");
+					    datos = data.split("\n");
 					    var largoArray = datos.length;
 					    datos.splice(largoArray-1,1);
 
 					    var particion = Math.floor(largoArray/5);
 					    var diferencia = largoArray%5;
 
-					    for (var i = 0; i < particion + diferencia; i++) {
-					    	
+					    var iterador = 0;
+					    for (var j = 0; j < 5; j++) {
+					    	 arraysToServers[j] = new Array(particion);
+					    	 for (var i = 0; i < particion; i++) {
+					    			arraysToServers[j][i] = datos[parseInt( i )+ parseInt( iterador )];
+					   		 };
+		
+					   		 iterador= iterador + 5;
 					    };
+					   
+					   	for (var i = 0; i < diferencia; i++) {
+					   		arraysToServers[4].push(datos[iterador + i]);
+					   	};
+					
+
 					    console.log(largoArray);
 					    console.log(particion);
 					    console.log(diferencia);
-						arrayForServer = JSON.stringify(datos);
-						var headers = {
+					//	arrayForServer = JSON.stringify(datos);
+				/*		var headers = {
 						  'Content-Type': 'application/json',
 						  'Content-Length': arrayForServer.length
-						};
+						};*/
 
 			
 					    }
@@ -74,19 +88,6 @@ app.get('/', function(req, res){
 	res.redirect("/view/index.html");
 });
 
-app.get("/cargarInput", function(req, res){
-
-	var fs = require('fs');
-	fs.readFile('./input.txt', 'utf8', function(err, data) {
-	    if( err ){
-		console.log(err)
-	    }
-	    else{
-		res.send(data);
-	    }
-	});
-});
-
 // EJEMLPO POST
 
 //Guardar un tweet en base a un método POST
@@ -94,7 +95,7 @@ app.get("/cargarInput", function(req, res){
 app.get('/part/:number', function(req, res){
 
 			    var numero = req.params.number;
-			    res.send(arrayForServer+ numero);
+			    res.send(arraysToServers[numero-1]);
 		
 
 });
