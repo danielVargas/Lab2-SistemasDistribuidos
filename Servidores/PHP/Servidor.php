@@ -100,6 +100,19 @@ print_r($arreglo);
 
 
 
+//API Url
+$url2 = 'http://localhost:3000/part/9';
+ 
 
+print_r(json_encode($arreglo));
+//The JSON data.
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url2);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json","Authorization: OAuth 2.0 token here"));
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arreglo));
+$result = curl_exec($ch);
 
 ?>

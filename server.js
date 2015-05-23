@@ -83,7 +83,7 @@ console.log('Web Services Online in Port ' + port);
 app.use(bodyParser.json())
 app.post('/part/:number', function(request, response, next){
 	
-	consolo.log("Se ha recibido desde: " + req.params.number);
+	console.log("Se ha recibido desde: " + request.params.number);
 	console.log(JSON.stringify(request.body));
   
  
