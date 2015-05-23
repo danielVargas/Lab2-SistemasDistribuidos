@@ -3,97 +3,77 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+import java.util.Random;
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
 
 
 public class Server {
 
-  protected void start() {
-    ServerSocket s;
-    String gets = "";
-    System.out.println("Start on port 8088");
-    try {
-      // create the main server socket
-      s = new ServerSocket(8088);
-    } catch (Exception e) {
-      System.out.println("Error: " + e);
-      return;
-    }
+    private final String USER_AGENT = "Mozilla/5.0";
+ 
 
-    System.out.println("Waiting for connection");
-    for (;;) {
-      try {
-        // wait for a connection
-        Socket remote = s.accept();
-        // remote is now the connected socket
-        System.out.println("Connection, sending data.");
-        BufferedReader in = new BufferedReader(new InputStreamReader(
-            remote.getReader()));
-        PrintWriter out = new PrintWriter(remote.getOutputStream());
-
-
-    
-        String str = ".";
-
-        while (!str.equals("")) {
-          str = in.readLine();
-          System.out.println(str);
-          if (str.contains("GET")){
-            gets = str;
-            break;
+    public static double []  bubbleSort(double[] arr) {
+          boolean swapped = true;
+          int j = 0;
+          double tmp;
+          while (swapped) {
+                swapped = false;
+                j++;
+                for (int i = 0; i < arr.length - j; i++) {                                       
+                      if (arr[i] > arr[i + 1]) {                          
+                            tmp = arr[i];
+                            arr[i] = arr[i + 1];
+                            arr[i + 1] = tmp;
+                            swapped = true;
+                      }
+                }                
           }
-        }
-
-        out.println("HTTP/1.0 200 OK");
-        out.println("Content-Type: text/html");
-        out.println("");
-        // Send the HTML page
-        String method = "get";
-        out.print("<html><form method="+method+">");
-        out.print("<textarea name=we></textarea></br>");
-        out.print("<input type=text name=a><input type=submit></form></html>");
-        out.println(gets);
-        out.flush();
-
-        remote.close();
-      } catch (Exception e) {
-        System.out.println("Error: " + e);
-      }
+          return arr;
     }
-  }
 
-  public static void main(String args[]) {
-    Server ws = new Server();
-    ws.start();
-  }
+
+    public static double [] quicksort(double A[], int izq, int der) {
+
+      double pivote=A[izq]; // tomamos primer elemento como pivote
+      int i=izq; // i realiza la búsqueda de izquierda a derecha
+      int j=der; // j realiza la búsqueda de derecha a izquierda
+      double aux;
+     
+      while(i<j){            // mientras no se crucen las búsquedas
+         while(A[i]<=pivote && i<j) i++; // busca elemento mayor que pivote
+         while(A[j]>pivote) j--;         // busca elemento menor que pivote
+         if (i<j) {                      // si no se han cruzado                      
+             aux= A[i];                  // los intercambia
+             A[i]=A[j];
+             A[j]=aux;
+         }
+       }
+       A[izq]=A[j]; // se coloca el pivote en su lugar de forma que tendremos
+       A[j]=pivote; // los menores a su izquierda y los mayores a su derecha
+       if(izq<j-1)
+          quicksort(A,izq,j-1); // ordenamos subarray izquierdo
+       if(j+1 <der)
+          quicksort(A,j+1,der); // ordenamos subarray derecho
+
+      return A;
 }
 
 
-
-/*import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
- 
-import javax.net.ssl.HttpsURLConnection;
- 
-public class Server {
- 
-    private final String USER_AGENT = "Mozilla/5.0";
- 
-    public static void main(String[] args) throws Exception {
- 
-        Server http = new Server();
+  public static void main(String args[]) throws Exception{
+     
+    Server http = new Server();
  
         System.out.println("Testing 1 - Send Http GET request");
         http.sendGet(); 
+
     }
- 
-    // HTTP GET request
+      // HTTP GET request
     private void sendGet() throws Exception {
  
-        String url = "http://localhost:3000/cargarInput/";
+        String url = "http://localhost:3000/part/1";
        // String tweet = "2";
 
         //url = url.concat(tweet);
@@ -103,7 +83,7 @@ public class Server {
  
         //Otional default is GET
         con.setRequestMethod("GET");
- 
+    
         //Add request header
         con.setRequestProperty("User-Agent", USER_AGENT);
  
@@ -117,13 +97,31 @@ public class Server {
         StringBuffer response = new StringBuffer();
  
         while ((inputLine = in.readLine()) != null) {
+
             response.append(inputLine);
         }
         in.close();
+        String str = response.toString();
+        str = str.replace("[", "");
+        str = str.replace("]", "");
+        str = str.replace("\"", "");
+        String [] arreglo =  str.split(",");
+        double [] arregloFinal = new double[arreglo.length];
 
-        System.out.println(response.toString());
+        for (int i = 0 ; i< arreglo.length; i++) {
+
+            arregloFinal[i] = Double.parseDouble(arreglo[i]);
+        }
+        System.out.println("");
+        System.out.println("Quicksort: ");
+        arregloFinal=quicksort(arregloFinal,0,arregloFinal.length-1);
+         for (int i = 0; i < arregloFinal.length; i++) {
+            System.out.print(""+arregloFinal[i]+" ");
+        }
+       
  
     }
- 
+
 }
-*/
+
+
