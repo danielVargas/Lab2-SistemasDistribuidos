@@ -5,6 +5,7 @@ import requests
 import json
 import string
 
+
  # Definición de funciones
 
 # ref: http://interactivepython.org/runestone/static/pythonds/SortSearch/TheBubbleSort.html
@@ -130,3 +131,10 @@ print "QuickSort"
 quickSort(listaQuick)
 print "lista Ordenada:"
 print(listaQuick)
+
+headers = {'content-type': 'application/json'}
+respuesta = requests.post("http://localhost:3000/part/6", data = json.dumps([dict(mpn=pn) for pn in listaQuick]), headers = headers)
+
+
+while True:
+	pass

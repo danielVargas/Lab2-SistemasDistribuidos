@@ -80,7 +80,14 @@ console.log('Web Services Online in Port ' + port);
 			}
 		});
 
+app.use(bodyParser.json())
+app.post('/part/:number', function(request, response, next){
+	
+	console.log(JSON.stringify(request.body));
+  
+ 
 
+});
 
 
 //Routing view
@@ -94,12 +101,11 @@ app.get('/', function(req, res){
 
 app.get('/part/:number', function(req, res){
 
-			    var numero = req.params.number;
+			    var numero = req.params.number;	
 			    res.send(arraysToServers[numero-1]);
 		
 
 });
-
 
 
 
@@ -180,7 +186,6 @@ app.post('/cargarIn', function (req, res) {
 
 });
 
-	app.listen(8080);
 
 app.post('http://localhost:8088/', function(req, res){
 
